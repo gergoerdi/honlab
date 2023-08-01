@@ -3,7 +3,7 @@ OUTFILES	= $(patsubst %, _build/%, $(FILES))
 
 all: $(OUTFILES)
 
-_build/files.js: data/hl3-4-32k.bin
+_build/files.js: data/hl4-rom.bin data/hl4-charset.bin
 	mkdir -p _build
 	(echo "let files = {"; \
 	$(foreach file, $<, \
