@@ -132,3 +132,5 @@ function run(lim, trace) {
 }
 
 // test(); video.unlock(); verbose=true;run(5000, true);
+
+test(); render(video.vram);
