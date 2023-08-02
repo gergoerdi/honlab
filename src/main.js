@@ -104,33 +104,39 @@ const cpu = Z80(core);
 const fps = 50;
 const cpu_freq = 4 * 1000 * 1000;
 
-function test() {
-    for (let i = 0; i < 3 * fps; ++i)
-    {
-        console.log("frame", i);
+function setupAnim() {
+    const frame_cnt = cpu_freq / fps;
+    const draw_cnt = frame_cnt * 0.8;
+    const blank_cnt = frame_cnt - draw_cnt;
 
-        video.unlock();
-        run(cpu_freq / fps / 2);
-
-        video.lock();
-        run(cpu_freq / fps / 2);
-    }
-}
-
-function run(lim, trace) {
     let cnt = 0;
-    while (true) {
-        cnt += cpu.run_instruction();
-        if (trace) {
-            const pc = cpu.getState().pc.toString(16);
-            console.log(pc);
-        }
+    let blank_end = 0;
+    let frame_end = 0;
+
+    function animate(t) {
+        requestAnimationFrame(animate);
         
-        if (cnt > lim)
-            break;
+        const lim = cpu_freq / 1000 * t;
+
+        while (cnt < lim) {
+            video.unlock();
+            while (cnt < blank_end) {
+                cnt += cpu.run_instruction();
+                if (cnt >= lim) return;
+            }
+            video.lock();
+            while (cnt < frame_end) {
+                cnt += cpu.run_instruction();
+                if (cnt >= lim) return;
+            }
+        
+            render(video.vram);
+            blank_end = cnt + blank_cnt;
+            frame_end = cnt + frame_cnt;
+        }
     }
+
+    requestAnimationFrame(animate);
 }
 
-// test(); video.unlock(); verbose=true;run(5000, true);
-
-test(); render(video.vram);
+setupAnim();
