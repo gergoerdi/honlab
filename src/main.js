@@ -42,7 +42,7 @@ const video = function(vram) {
     function drawing() {
         return locked;
     }
-    return { lock, unlock, drawing, vram };
+    return { lock, unlock, drawing, vram, render: () => hl4_render(vram) };
 }(vram);
 
 const core = init_core(video);

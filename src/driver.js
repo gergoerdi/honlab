@@ -24,7 +24,7 @@ function setupAnim(cpu, video) {
     
     function animate(t) {
         requestAnimationFrame(animate);
-        render(video.vram);
+        video.render();
     }
 
     setInterval(emulate, 20);
