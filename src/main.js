@@ -1,7 +1,7 @@
 let verbose = false;
 
 function init_core(video) {
-    const memmap = memory_map(hl4_memory_map(video, keystate));
+    const memmap = memory_map(ac_memory_map(video, keystate));
     
     function io_read(port) {
         port &= 0xff;
@@ -27,7 +27,7 @@ function init_core(video) {
     };
 }
 
-const vram = new Uint8Array(0x0800);
+const vram = new Uint8Array(0x0400);
 const video = function(vram) {
     let locked = false;
 
@@ -42,7 +42,7 @@ const video = function(vram) {
     function drawing() {
         return locked;
     }
-    return { lock, unlock, drawing, vram, render: () => hl4_render(vram) };
+    return { lock, unlock, drawing, vram, render: () => ac_render(vram) };
 }(vram);
 
 const core = init_core(video);

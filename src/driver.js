@@ -3,7 +3,7 @@ const cpu_freq = 4 * 1000 * 1000;
 
 function setupAnim(cpu, video) {
     const frame_cnt = cpu_freq / fps;
-    const draw_cnt = frame_cnt * 0.8;
+    const draw_cnt = frame_cnt * 0.6;
     const blank_cnt = frame_cnt - draw_cnt;
 
     function emulate() {
