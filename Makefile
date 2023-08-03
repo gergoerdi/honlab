@@ -1,4 +1,7 @@
-FILES		= files.js index.html lib/base64.js lib/Z80.js video.js main.js
+FILES		= lib/base64.js lib/Z80.js \
+		  index.html \
+		  files.js video.js driver.js \
+		  main.js
 OUTFILES	= $(patsubst %, _build/%, $(FILES))
 
 all: $(OUTFILES)
