@@ -12,7 +12,7 @@ all: $(OUTFILES)
 _build/files.js: data/hl4-rom.bin data/hl4-charset.bin
 	mkdir -p _build
 	(echo "let files = {"; \
-	$(foreach file, $?, \
+	$(foreach file, $^, \
 		printf "\t'%s': base64ToArrayBuffer('" $(file) ; \
 		base64 $(file) | sed -e 's/$$/\\/' ; \
 		printf "'),\n" ; \
