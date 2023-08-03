@@ -5,7 +5,8 @@ DATAFILES	= ac-rom.bin ac-charset.bin \
 FILES		= lib/base64.js lib/Z80.js \
 		  index.html \
 		  files.js \
-		  driver.js memmap.js keyboard.js \
+		  driver.js \
+		  video.js keyboard.js memmap.js \
 		  hl4-video.js hl4-keyboard.js hl4-memmap.js \
 		  main.js
 OUTFILES	= $(patsubst %, _build/%, $(FILES))

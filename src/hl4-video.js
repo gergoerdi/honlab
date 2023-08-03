@@ -1,5 +1,3 @@
-const ctx = crt.getContext("2d");
-const buf = ctx.createImageData(crt.width, crt.height);
 const charset = new Uint8Array(files["data/hl4-charset.bin"].slice());
 
 crt.style.imageRendering = "pixelated";
@@ -15,19 +13,7 @@ function hl4_render(vram) {
                 let glyphLine = charset[subrow << 8 | c];
                 for (let j = 0; j < 8; ++j) {
                     let glyphPixel = glyphLine & 0x80;
-
-                    if (glyphPixel) {
-                        buf.data[ptr++] = 0xff;
-                        buf.data[ptr++] = 0xff;
-                        buf.data[ptr++] = 0xff;
-                    } else {
-                        buf.data[ptr++] = 0x00;
-                        buf.data[ptr++] = 0x00;
-                        buf.data[ptr++] = 0x00;
-                    }
-
-                    buf.data[ptr++] = 0xff;
-
+                    ptr = setPixel(ptr, glyphPixel);
                     glyphLine <<= 1;
                 }
             }
