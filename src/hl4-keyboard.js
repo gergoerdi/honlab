@@ -16,11 +16,13 @@ const keymap = [
     [ "KeyT",      "KeyU",      null,           "KeyV"        ],
     [ "KeyW",      "KeyX",      "KeyY",         "KeyZ"        ]
 ];
-    
+
 function keyboard_byte(keystate, addr) {
-    const keys = keymap[addr & 0x0f];
+    const keys = keymap[addr];
+    if (!keys) return 0x0f;
+
     let val = 0;
-    for (key of keys) {
+    for (key of keymap[addr]) {
         val >>= 1;
         if (!(key && keystate[key]))
             val |= 0b1000;

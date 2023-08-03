@@ -19,14 +19,14 @@ function hl4_memory_map(video, keystate) {
 
     const peripherals = function(){
         function read(addr) {
-            const poke = addr & 0b1000_0000;
-            addr &= 0b0001_1111;
+            const poke = addr & 0x80;
+            addr &= 0x1f;
             let val = keyboard_byte(keystate, addr);
-            // let val = 0x0f;
 
             if (addr == 0x02) // Video sync
                 if (video.drawing())
                     val &= 0xfe;
+
             return val;
         };
 
