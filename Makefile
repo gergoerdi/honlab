@@ -1,3 +1,7 @@
+DATAFILES	= ac-rom.bin ac-charset.bin \
+		  hl2-rom.bin hl2-charset.bin \
+		  hl4-rom.bin hl4-charset.bin
+
 FILES		= lib/base64.js lib/Z80.js \
 		  index.html \
 		  files.js video.js memmap.js \
@@ -9,7 +13,7 @@ OUTFILES	= $(patsubst %, _build/%, $(FILES))
 
 all: $(OUTFILES)
 
-_build/files.js: data/hl4-rom.bin data/hl4-charset.bin
+_build/files.js: $(patsubst %, data/%, $(DATAFILES))
 	mkdir -p _build
 	(echo "let files = {"; \
 	$(foreach file, $^, \
