@@ -1,7 +1,7 @@
 let verbose = false;
 
 function init_core(video) {
-    const memmap = memory_map(hl4_memory_map(video));
+    const memmap = memory_map(hl4_memory_map(video, keystate));
     
     function io_read(port) {
         port &= 0xff;

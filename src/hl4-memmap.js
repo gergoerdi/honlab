@@ -13,30 +13,21 @@ const mk_rom = (buf) => ({
     write: (addr, val) => {}
 });
 
-function hl4_memory_map(video) {
+function hl4_memory_map(video, keystate) {
     const rom = new Uint8Array(files["data/hl4-rom.bin"].slice());
     const ram = new Uint8Array(0x4000);
 
     const peripherals = function(){
         function read(addr) {
-            const poke = addr & 0x80;
-            addr &= 0x1f;
+            const poke = addr & 0b1000_0000;
+            addr &= 0b0001_1111;
+            let val = keyboard_byte(keystate, addr);
+            // let val = 0x0f;
 
-            switch (addr) {
-            case 0x02:
-                if (video.drawing()) {
-                    // console.log("video sync");
-                    return 0x00 | 0x0e;
-                } else {
-                    return 0x01 | 0x0e;
-                }
-            case 0x03:
-                return 0x0f; // TODO: tape
-            default:
-                // addr = addr.toString(16);
-                // if (!poke) { console.log("mem_read IO", addr) };
-                return 0x0f; // TODO: keyboard input
-            }
+            if (addr == 0x02) // Video sync
+                if (video.drawing())
+                    val &= 0xfe;
+            return val;
         };
 
         function write(addr, val) {

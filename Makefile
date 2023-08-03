@@ -1,7 +1,9 @@
 FILES		= lib/base64.js lib/Z80.js \
 		  index.html \
 		  files.js video.js memmap.js \
-		  hl4-memmap.js driver.js \
+		  keyboard.js \
+		  hl4-keyboard.js hl4-memmap.js \
+		  driver.js \
 		  main.js
 OUTFILES	= $(patsubst %, _build/%, $(FILES))
 
