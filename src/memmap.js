@@ -20,10 +20,10 @@ function memory_map(table) {
         }};
 }
 
-const unconnected = {
-    read: (addr) => 0x00,
+const unconnected = (val) => ({
+    read: (addr) => val,
     write: (addr, val) => {}
-};
+});
 
 const mk_ram = (buf) => ({
     read: (addr) => buf[addr],

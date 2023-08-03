@@ -24,7 +24,7 @@ function hl4_memory_map(video, keystate) {
     return [
         { lim: 0x4000, unit: mk_rom(rom) },
         { lim: 0x8000, unit: mk_ram(ram) },
-        { lim: 0xe000, unit: unconnected },
+        { lim: 0xe000, unit: unconnected(0x00) },
         { lim: 0xe800, unit: peripherals },
         { lim: 0xf000, unit: peripherals },
         { lim: 0xf800, unit: mk_ram(video.vram) },
