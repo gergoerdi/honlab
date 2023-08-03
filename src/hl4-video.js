@@ -1,5 +1,5 @@
 const ctx = crt.getContext("2d");
-const buf = ctx.createImageData(512, 256);
+const buf = ctx.createImageData(crt.width, crt.height);
 const charset = new Uint8Array(files["data/hl4-charset.bin"].slice());
 
 crt.style.imageRendering = "pixelated";
