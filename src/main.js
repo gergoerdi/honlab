@@ -1,61 +1,8 @@
 let verbose = false;
 
 function init_core(video) {
-    const rom = new Uint8Array(files["data/hl4-rom.bin"].slice());
-    const ram = new Uint8Array(0x4000);
-
-    function mem_read (addr) {
-        if (addr < 0x4000) {
-            return rom[addr & 0x3fff];
-        } else if (addr < 0x8000) {
-            return ram[addr & 0x3fff];
-        } else if (addr < 0xe000) {
-            return 0;
-        } else if (addr < 0xf000) {
-            const poke = addr & 0x80;
-            addr &= 0x7f;
-            if (verbose) {
-                let keyb = addr.toString(16);
-                console.log("keyb", keyb);
-            }
-            switch (addr) {
-            case 0x02:
-                if (video.drawing()) {
-                    // console.log("video sync");
-                    return 0x00 | 0x0e;
-                } else {
-                    return 0x01 | 0x0e;
-                }
-            case 0x03: 
-                return 0x0f; // TODO: tape
-            default:
-                addr = addr.toString(16);
-                // if (!poke) { console.log("mem_read IO", addr) };
-                return 0x0f; // TODO: keyboard input
-            }
-        } else {
-            addr &= 0x07ff;
-            return video.vram[addr];
-        }
-    };
-
-    function mem_write(addr, val) {
-        if (addr < 0x4000) {
-        } else if (addr < 0x8000) {
-            ram[addr & 0x3fff] = val;
-        } else if (addr < 0xe000) {
-        } else if (addr < 0xf000) {
-            addr &= 0x7f;
-
-            // addr = addr.toString(16);
-            // val = val.toString(16);
-            // console.log("mem_write IO", {addr, val});
-        } else {
-            addr &= 0x07ff;
-            video.vram[addr] = val;
-        }
-    };
-
+    const memmap = memory_map(hl4_memory_map(video));
+    
     function io_read(port) {
         port &= 0xff;
         
@@ -73,8 +20,8 @@ function init_core(video) {
     };
 
     return {
-        mem_read,
-        mem_write,
+        mem_read: memmap.mem_read,
+        mem_write: memmap.mem_write,
         io_read,
         io_write
     };
