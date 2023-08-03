@@ -1,18 +1,3 @@
-const unconnected = {
-    read: (addr) => 0x00,
-    write: (addr, val) => {}
-};
-
-const mk_ram = (buf) => ({
-    read: (addr) => buf[addr],
-    write: (addr, val) => { buf[addr] = val; }
-});
-
-const mk_rom = (buf) => ({
-    read: (addr) => buf[addr],
-    write: (addr, val) => {}
-});
-
 function hl4_memory_map(video, keystate) {
     const rom = new Uint8Array(files["data/hl4-rom.bin"].slice());
     const ram = new Uint8Array(0x4000);

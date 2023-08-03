@@ -19,3 +19,18 @@ function memory_map(table) {
             return unit.write(unit_addr, val);
         }};
 }
+
+const unconnected = {
+    read: (addr) => 0x00,
+    write: (addr, val) => {}
+};
+
+const mk_ram = (buf) => ({
+    read: (addr) => buf[addr],
+    write: (addr, val) => { buf[addr] = val; }
+});
+
+const mk_rom = (buf) => ({
+    read: (addr) => buf[addr],
+    write: (addr, val) => {}
+});
