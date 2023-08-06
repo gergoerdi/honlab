@@ -14,7 +14,7 @@ function ac_memory_map(video, keystate) {
     }();
 
     const keyboard = function(){
-        const read = (addr) => 0xff;
+        const read = (addr) => keyboard_byte(keystate, addr);
         const write = (addr, val) => {};
         return {read, write};
     }();
