@@ -1,6 +1,6 @@
 const charset = new Uint8Array(files["data/hl2/charset.bin"].slice());
 
-function hl2_render(vram) {
+function hl2_render(vram, setPixel) {
     let ptr = 0;
 
     for (let row = 0; row < 25; ++row) {
@@ -17,6 +17,4 @@ function hl2_render(vram) {
             }
         }
     }
-
-    ctx.putImageData(buf, 0, 0);
 }

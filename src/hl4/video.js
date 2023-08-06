@@ -1,6 +1,6 @@
 const charset = new Uint8Array(files["data/hl4-charset.bin"].slice());
 
-function hl4_render(vram) {
+function hl4_render(vram, setPixel) {
     let ptr = 0;
 
     for (let row = 0; row < 32; ++row) {
@@ -17,6 +17,4 @@ function hl4_render(vram) {
             }
         }
     }
-
-    ctx.putImageData(buf, 0, 0);
 }

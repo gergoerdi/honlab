@@ -1,5 +1,3 @@
-let verbose = false;
-
 const video = (() => {
     const vram = new Uint8Array(0x0400);
     let running = true;
@@ -11,7 +9,7 @@ const video = (() => {
         off: () => { running = false; },
         start_frame: (cpu) => { if (running) cpu.interrupt(true); },
         vram,
-        render: () => hl2_render(vram)
+        render: () => { hl2_render(vram, renderer.setPixel); renderer.paint(); }
     };
 })();
 
