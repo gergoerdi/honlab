@@ -4,10 +4,11 @@ DATAFILES = \
 
 FILES = \
 	lib/base64.js lib/Z80.js \
+	image/hl2/aknasz_a16.wav \
 	index.html index.css \
 	files.js \
 	driver.js \
-	video.js keyboard.js memmap.js \
+	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
 	main.js
@@ -35,6 +36,10 @@ _build/index.css: html/index.css
 	cp -f $< $@
 
 _build/%.js: src/%.js
+	mkdir -p $(dir $@)
+	cp -f $< $@
+
+_build/image/%: image/%
 	mkdir -p $(dir $@)
 	cp -f $< $@
 

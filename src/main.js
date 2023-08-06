@@ -20,7 +20,7 @@ const video = (() => {
 })();
 
 const core = (() => {
-    const memmap = memory_map(hl2_memory_map(video, keystate));
+    const memmap = memory_map(hl2_memory_map(video, keystate, deck));
 
     return {
         mem_read: memmap.mem_read,
@@ -32,4 +32,4 @@ const core = (() => {
 
 const cpu = Z80(core);
 
-setupAnim(cpu, video);
+setupAnim(cpu, video, deck);

@@ -1,7 +1,7 @@
 const fps = 50;
 const cpu_freq = 4_000_000;
 
-function setupAnim(cpu, video) {
+function setupAnim(cpu, video, deck) {
     const frame_cnt = cpu_freq / fps;
     const blank_ms = 2.5;
     const blank_cnt = cpu_freq / 1_000 * blank_ms;
@@ -24,6 +24,8 @@ function setupAnim(cpu, video) {
         while (subcnt < lim) {
             let dcnt = cpu.run_instruction();
             subcnt += dcnt;
+
+            deck.tick(dcnt);
             if (step(dcnt))
                 video.start_frame(cpu);
         }
