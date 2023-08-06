@@ -32,14 +32,14 @@ function ac_memory_map(video, keystate) {
     return [
         { lim: 0x2000, unit: mk_rom(rom) },
         { lim: 0x3800, unit: unconnected(0xff) },
-        { lim: 0x3a00, unit: trace_mem("hw-3800", unconnected(0x00), false) }, // TODO
-        { lim: 0x3b00, unit: trace_mem("keyboard", keyboard, false) },
+        { lim: 0x3a00, unit: trace_mem("hw-3800", unconnected(0x00), false) }, // TODO: reset key
+        { lim: 0x3b00, unit: keyboard },
         { lim: 0x3e00, unit: trace_mem("hw-3b00", unconnected(0x00), false) }, // TODO
-        { lim: 0x3f00, unit: trace_mem("video_off", video_off) },
-        { lim: 0x4000, unit: trace_mem("video_on", video_on, false) },
+        { lim: 0x3f00, unit: video_off },
+        { lim: 0x4000, unit: video_on },
         { lim: 0x8000, unit: mk_ram(ram) },
         { lim: 0xc000, unit: unconnected(0xff) },
-        { lim: 0xc400, unit: trace_mem("vram", mk_ram(video.vram), false) },
+        { lim: 0xc400, unit: mk_ram(video.vram) },
         { lim: 0xe000, unit: trace_mem("hw-c400", unconnected(0xff), false) },
         { unit: unconnected(0xff) },
     ];

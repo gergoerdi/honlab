@@ -3,30 +3,41 @@ const cpu_freq = 4_000_000;
 
 function setupAnim(cpu, video) {
     const frame_cnt = cpu_freq / fps;
-    const draw_cnt = 48_000;
-    const blank_cnt = 32_000;
+    const blank_ms = 2.5;
+    const blank_cnt = cpu_freq / 1_000 * blank_ms;
+    const draw_cnt = frame_cnt - blank_cnt;
+
+    let cnt = 0;
+    function step(dcnt) {
+        const new_cnt = cnt + dcnt;
+        const trigger = cnt < blank_cnt && new_cnt >= blank_cnt;
+
+        cnt = new_cnt;
+        if (cnt > frame_cnt)
+            cnt -= frame_cnt;
+
+        return trigger;
+    }
+
+    function run_for(lim) {
+        let subcnt = 0;
+        while (subcnt < lim) {
+            let dcnt = cpu.run_instruction();
+            subcnt += dcnt;
+            if (step(dcnt))
+                video.start_frame(cpu);
+        }
+    };
 
     function emulate() {
-        let cnt = 0;
-        
-        video.unlock(cpu);
-        cnt = 0;
-        while (cnt < blank_cnt) {
-            cnt += cpu.run_instruction();
-        }
-
-        video.lock(cpu);
-        cnt = 0;
-        while (cnt < draw_cnt) {
-            cnt += cpu.run_instruction();
-        }
+        run_for(frame_cnt / 5);
     }
-    
+
     function animate(t) {
         requestAnimationFrame(animate);
         video.render();
     }
 
-    setInterval(emulate, 20);
+    setInterval(emulate, 20 / 5);
     requestAnimationFrame(animate);
 }
