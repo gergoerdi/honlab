@@ -21,12 +21,13 @@ function hl2_memory_map(video, keystate) {
 
     const video_on = {
         read: (addr) => { return 0x00; },
-        write: (addr, val) => { if (addr == 0x3f0) video.on(); }
+        write: (addr, val) => { video.on(); }
     };
 
     const video_off = {
         read: (addr) => { return 0x00; },
-        write: (addr, val) => { if (addr == 0x00) video.off(); }
+        write: (addr, val) => { video.off(); }
+    };
     };
 
     return [
