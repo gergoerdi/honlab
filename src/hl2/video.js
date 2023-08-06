@@ -1,6 +1,6 @@
-const charset = new Uint8Array(files["data/ac-charset.bin"].slice());
+const charset = new Uint8Array(files["data/hl2/charset.bin"].slice());
 
-function ac_render(vram) {
+function hl2_render(vram) {
     let ptr = 0;
 
     for (let row = 0; row < 25; ++row) {

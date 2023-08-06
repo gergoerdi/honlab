@@ -11,12 +11,12 @@ const video = (() => {
         off: () => { running = false; },
         start_frame: (cpu) => { if (running) cpu.interrupt(true); },
         vram,
-        render: () => ac_render(vram)
+        render: () => hl2_render(vram)
     };
 })();
 
 const core = (() => {
-    const memmap = memory_map(ac_memory_map(video, keystate));
+    const memmap = memory_map(hl2_memory_map(video, keystate));
 
     return {
         mem_read: memmap.mem_read,

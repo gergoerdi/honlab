@@ -1,5 +1,5 @@
-function ac_memory_map(video, keystate) {
-    const rom = new Uint8Array(files["data/ac-rom.bin"].slice());
+function hl2_memory_map(video, keystate) {
+    const rom = new Uint8Array(files["data/hl2/rom.bin"].slice());
     const ram = new Uint8Array(0x4000);
 
     const highio = function(){
