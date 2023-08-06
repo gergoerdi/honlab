@@ -1,7 +1,5 @@
 const charset = new Uint8Array(files["data/hl4-charset.bin"].slice());
 
-crt.style.imageRendering = "pixelated";
-
 function hl4_render(vram) {
     let ptr = 0;
 

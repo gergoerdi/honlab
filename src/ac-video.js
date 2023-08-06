@@ -1,7 +1,5 @@
 const charset = new Uint8Array(files["data/ac-charset.bin"].slice());
 
-crt.style.imageRendering = "pixelated";
-
 function ac_render(vram) {
     let ptr = 0;
 

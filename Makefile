@@ -3,7 +3,7 @@ DATAFILES	= ac-rom.bin ac-charset.bin \
 		  hl4-rom.bin hl4-charset.bin
 
 FILES		= lib/base64.js lib/Z80.js \
-		  index.html \
+		  index.html index.css \
 		  files.js \
 		  driver.js \
 		  video.js keyboard.js memmap.js \
@@ -26,6 +26,10 @@ _build/files.js: $(patsubst %, data/%, $(DATAFILES))
 	) > $@
 
 _build/index.html: html/index.html
+	mkdir -p _build
+	cp -f $< $@
+
+_build/index.css: html/index.css
 	mkdir -p _build
 	cp -f $< $@
 
