@@ -9,13 +9,13 @@ function setupAnim(cpu, video) {
     function emulate() {
         let cnt = 0;
         
-        video.unlock();
+        video.unlock(cpu);
         cnt = 0;
         while (cnt < blank_cnt) {
             cnt += cpu.run_instruction();
         }
 
-        video.lock();
+        video.lock(cpu);
         cnt = 0;
         while (cnt < draw_cnt) {
             cnt += cpu.run_instruction();

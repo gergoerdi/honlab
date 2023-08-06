@@ -34,3 +34,20 @@ const mk_rom = (buf) => ({
     read: (addr) => buf[addr],
     write: (addr, val) => {}
 });
+
+const trace_mem_fun = (f, unit) => ({
+    read: (addr) => { f(addr); return unit.read(addr); },
+    write: (addr, val) => { f(addr, val); unit.write(addr, val); }
+});
+
+const trace_mem = (name, unit, verbose = true) => {
+    const f = (addr, val) => {
+        if (!verbose) return;
+        if (val != undefined)
+            console.log("write " + name, addr.toString(16), val.toString(16));
+        else
+            console.log("read " + name, addr.toString(16));
+    };
+
+    return trace_mem_fun(f, unit);
+};

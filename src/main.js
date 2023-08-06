@@ -29,20 +29,24 @@ function init_core(video) {
 
 const vram = new Uint8Array(0x0400);
 const video = function(vram) {
-    let locked = false;
+    let running = true;
 
-    function lock() {
-        locked = true;
+    const on = () => { running = true; };
+    const off = () => { running = false; };
+
+    const lock = (cpu) => {
+        if (running) {
+            // console.log("interrupting");
+            cpu.interrupt(true);
+        }
     };
 
-    function unlock() {
-        locked = false;
+    const unlock = (cpu) => {
     };
     
-    function drawing() {
-        return locked;
-    }
-    return { lock, unlock, drawing, vram, render: () => ac_render(vram) };
+    const drawing = () => locked;
+
+    return { on, off, lock, unlock, drawing, vram, render: () => ac_render(vram) };
 }(vram);
 
 const core = init_core(video);
