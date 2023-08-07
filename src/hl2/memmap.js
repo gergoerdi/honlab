@@ -30,7 +30,10 @@ function hl2_memory_map(video, keystate, deck) {
     };
 
     const tape_in = {
-        read: (addr) => deck.read() ? 0x00 : 0xff,
+        read: (addr) =>
+            video.is_running() ? 0xff :
+            deck.read() ? 0x37 :
+            0x00,
         write: (addr, val) => {}
     };
 
@@ -44,9 +47,8 @@ function hl2_memory_map(video, keystate, deck) {
         { lim: 0x4000, unit: video_on },
         { lim: 0x8000, unit: mk_ram(ram) },
         { lim: 0xc000, unit: unconnected(0xff) },
-        { lim: 0xc400, unit: mk_ram(video.vram) },
+        { lim: 0xc400, unit: video.vram },
         { lim: 0xe000, unit: trace_mem("hw-c400", unconnected(0xff), false) },
-        { lim: 0xe001, unit: tape_in },
-        { unit: unconnected(0xff) },
+        { unit: tape_in },
     ];
 }
