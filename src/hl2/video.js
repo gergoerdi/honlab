@@ -5,7 +5,7 @@ const video = (() => {
     let running = true;
     let dirty = true;
 
-    const render = () => {
+    const render = (renderer) => {
         let ptr = 0;
 
         for (let row = 0; row < 25; ++row) {
@@ -29,11 +29,10 @@ const video = (() => {
         on: () => { running = true; },
         off: () => { running = false; },
         is_running: () => running,
-        start_frame: (cpu) => { if (running) cpu.interrupt(true); },
         vram: mk_ram(vram),
-        render: () => {
+        render: (renderer) => {
             if (true || running)
-                render();
+                render(renderer);
             else
                 renderer.clear();
             renderer.paint();

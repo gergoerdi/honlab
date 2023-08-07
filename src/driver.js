@@ -1,7 +1,7 @@
 const fps = 50;
 const cpu_freq = 4_000_000;
 
-function setupAnim(cpu, video, deck) {
+function setupAnim(machine) {
     const frame_cnt = cpu_freq / fps;
     const blank_ms = 2.5;
     const blank_cnt = cpu_freq / 1_000 * blank_ms;
@@ -22,12 +22,11 @@ function setupAnim(cpu, video, deck) {
     function run_for(lim) {
         let subcnt = 0;
         while (subcnt < lim) {
-            let dcnt = cpu.run_instruction();
+            let dcnt = machine.step();
             subcnt += dcnt;
 
-            deck.tick(dcnt);
             if (step(dcnt))
-                video.start_frame(cpu);
+                machine.start_frame();
         }
     };
 
@@ -37,7 +36,7 @@ function setupAnim(cpu, video, deck) {
 
     function animate(t) {
         requestAnimationFrame(animate);
-        video.render();
+        machine.render(renderer);
     }
 
     setInterval(emulate, 20 / 5);
