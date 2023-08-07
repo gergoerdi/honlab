@@ -4,7 +4,7 @@ DATAFILES = \
 
 FILES = \
 	lib/base64.js lib/Z80.js \
-	image/hl2/aknasz_a16.wav \
+	$(wildcard image/*/*.wav) \
 	index.html index.css \
 	files.js \
 	driver.js \
