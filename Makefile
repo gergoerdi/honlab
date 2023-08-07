@@ -4,6 +4,8 @@ DATAFILES = \
 
 FILES = \
 	lib/base64.js lib/Z80.js \
+	lib/bootstrap5/bootstrap.min.css.gz lib/bootstrap5/bootstrap-icons.css.gz \
+	lib/bootstrap5/bootstrap-icons.woff lib/bootstrap5/bootstrap-icons.woff2 \
 	$(wildcard image/*/*.wav) \
 	index.html index.css \
 	files.js \
@@ -11,6 +13,7 @@ FILES = \
 	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js hl2/core.js hl2/machine.js \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
+        ui/tape.js \
 	main.js
 OUTFILES = $(patsubst %, _build/%, $(FILES))
 
@@ -48,5 +51,9 @@ _build/lib/base64.js: import/base64.js
 	cp -f $< $@
 
 _build/lib/Z80.js: import/Z80.js/Z80.js
+	mkdir -p $(dir $@)
+	cp -f $< $@
+
+_build/lib/bootstrap5/%: import/bootstrap5/%
 	mkdir -p $(dir $@)
 	cp -f $< $@

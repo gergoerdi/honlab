@@ -1,3 +1,5 @@
+const crt = document.getElementById("crt");
+
 const renderer = (function () {
     const ctx = crt.getContext("2d");
     const buf = ctx.createImageData(crt.width, crt.height);

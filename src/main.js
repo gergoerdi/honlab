@@ -1,1 +1,2 @@
 setupAnim(machine);
+setupTape(deck);

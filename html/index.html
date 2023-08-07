@@ -1,12 +1,36 @@
 <!doctype html>
+<html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="index.css"></link>
+  <link rel="stylesheet" href="lib/bootstrap5/bootstrap-icons.css">
+  <link href="lib/bootstrap5/bootstrap.min.css.gz" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body>
-  <div class="fullscreen">
-    <canvas id="crt" width="320" height="200"></canvas>
+  <div class="fullscreen flexcol">
+    <h1 class="centered">HonLab</h1>
+    <canvas id="crt" width="320" height="200" style="background: red"></canvas>
+    <div class="flexrow">  
+      <div class="btn-group" role="group">
+        <button id="tape-btn-rewind" class="btn btn-outline-dark" type="button">
+          <i class="bi bi-skip-backward-fill"></i>
+        </button>
+        <button id="tape-btn-play" class="btn btn-outline-dark" type="button">
+          <i class="bi bi-play-fill"></i>
+        </button>
+        <input type="checkbox" class="btn-check" id="tape-btn-record" autocomplete="off"></input>
+        <label class="btn btn-outline-dark" for="tape-btn-record">
+          <i class="bi bi-record-fill"></i>
+        </label>
+        
+        <button id="tape-btn-eject" class="btn btn-outline-dark" type="button">
+          <i class="bi bi-eject-fill"></i>
+        </button>
+      </div>
+      <input id="tape-range" type="range" disabled min="0" max="10000"></input>
+      <div id="tape-monitor" class="border border-dark border-1 rounded"></div>
+    </div>
   </div>
   
   <script src="lib/base64.js"></script>
@@ -25,6 +49,7 @@
   <script src="hl2/core.js"></script>
   <script src="hl2/machine.js"></script>
 
+  <script src="ui/tape.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
