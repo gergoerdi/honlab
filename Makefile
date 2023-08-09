@@ -12,13 +12,14 @@ LIBFILES = \
 
 FILES = \
 	$(LIBFILES) \
-	index.html index.css \
+        $(wildcard image/*/images.json) \
+	index.html index.css ripple.css casette.jpg \
 	files.js \
 	driver.js \
 	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js hl2/core.js hl2/machine.js \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
-        ui/tape.js ui/canvas.js \
+        ui/tape.js ui/tape-filesel.js ui/canvas.js ui/ripple.js \
 	main.js
 
 OUTFILES = \
@@ -42,7 +43,11 @@ _build/index.html: html/index.html
 	mkdir -p _build
 	cp -f $< $@
 
-_build/index.css: html/index.css
+_build/%.css: html/%.css
+	mkdir -p _build
+	cp -f $< $@
+
+_build/%.jpg: html/%.jpg
 	mkdir -p _build
 	cp -f $< $@
 

@@ -53,3 +53,7 @@ body {
     right: 0;
     margin-right: auto;
 }
+
+#tape-filesel .card:hover {
+    background: var(--bs-light);
+}
