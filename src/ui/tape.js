@@ -5,13 +5,22 @@ const tape_btn_record = document.getElementById("tape-btn-record");
 const tape_range =  document.getElementById("tape-range");
 const tape_monitor = document.getElementById("tape-monitor");
 
-async function eject() {
+const eject = async () => {
     const filename = "image/hl2/bombazo_a16.wav";
     let tape = await tape_from_file(filename);
     deck.load_tape(tape);
-}
+};
 
 const setupTape = (deck) => {
+    const set_enable = (enable) => {
+        tape_btn_eject.disabled = !enable;
+
+        const size = deck.get_size();
+        for (let ctl of [tape_btn_play, tape_btn_rewind, tape_btn_record]) {
+            ctl.disabled = !(enable && size > 0);
+        }
+    };
+
 
     deck.on_play(() => {
         const icon = document.createElement("i");
@@ -30,18 +39,21 @@ const setupTape = (deck) => {
     };
 
     tape_btn_eject.onclick = () => {
+        set_enable(false);
         eject();
     };
 
     tape_range.min = 0;
-    tape_range.max = deck.get_size();
 
-    deck.on_load(() => {
+    const load_cb = () => {
         tape_range.max = deck.get_size();
-    });
+        set_enable(true);
+    };
+    deck.on_load(load_cb);
+    load_cb();
     
     let tape_bit = false;
-    function blinkTape(t) {
+    const blinkTape = (t) => {
         requestAnimationFrame(blinkTape);
 
         tape_range.value = deck.get_cnt();
@@ -56,7 +68,6 @@ const setupTape = (deck) => {
         const color2 = recording ? orange : teal;
     
         tape_monitor.style.background = deck.read() ? color1 : color2;
-        
-    }
+    };
     requestAnimationFrame(blinkTape);
 };
