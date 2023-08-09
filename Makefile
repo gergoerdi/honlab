@@ -2,11 +2,16 @@ DATAFILES = \
 	hl2/rom.bin hl2/charset.bin \
 	hl4/rom.bin hl4/charset.bin
 
-FILES = \
+IMAGEFILES = \
+	$(wildcard image/*/*.wav)
+
+LIBFILES = \
 	lib/base64.js lib/Z80.js \
 	lib/bootstrap5/bootstrap.min.css.gz lib/bootstrap5/bootstrap-icons.css.gz \
-	lib/bootstrap5/bootstrap-icons.woff lib/bootstrap5/bootstrap-icons.woff2 \
-	$(wildcard image/*/*.wav) \
+	lib/bootstrap5/bootstrap-icons.woff lib/bootstrap5/bootstrap-icons.woff2
+
+FILES = \
+	$(LIBFILES) \
 	index.html index.css \
 	files.js \
 	driver.js \
@@ -15,7 +20,10 @@ FILES = \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
         ui/tape.js ui/canvas.js \
 	main.js
-OUTFILES = $(patsubst %, _build/%, $(FILES))
+
+OUTFILES = \
+	$(patsubst %, _build/%, $(FILES)) \
+	$(patsubst %.wav, _build/%.mp3, $(IMAGEFILES))
 
 all: $(OUTFILES)
 
@@ -42,9 +50,9 @@ _build/%.js: src/%.js
 	mkdir -p $(dir $@)
 	cp -f $< $@
 
-_build/image/%: image/%
+_build/image/%.mp3: image/%.wav
 	mkdir -p $(dir $@)
-	cp -f $< $@
+	lame -b 96 $< -o $@
 
 _build/lib/base64.js: import/base64.js
 	mkdir -p $(dir $@)

@@ -6,7 +6,7 @@ const tape_range =  document.getElementById("tape-range");
 const tape_monitor = document.getElementById("tape-monitor");
 
 const eject = async () => {
-    const filename = "image/hl2/bombazo_a16.wav";
+    const filename = "image/hl2/bombazo_a16.mp3";
     let tape = await tape_from_file(filename);
     deck.load_tape(tape);
 };
