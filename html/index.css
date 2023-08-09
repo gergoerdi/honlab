@@ -39,6 +39,16 @@ body {
     height: 100vh;
 }
 
+dialog {
+    min-height: 80vh;
+    box-shadow: 5px 5px 12px rgb(0,0,0);
+    border: none;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+}
+
 #canvas-container {
     position: relative;
     height: calc(100vh - 12em); /* Subtract the height of the header */
