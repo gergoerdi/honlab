@@ -10,7 +10,9 @@
 <body>
   <div class="fullscreen flexcol">
     <h1 class="centered">HonLab</h1>
-    <canvas id="crt" width="320" height="200" style="background: red"></canvas>
+    <div id="canvas-container">
+      <canvas id="crt" width="320" height="200"></canvas>
+    </div>
     <div class="flexrow">  
       <div class="btn-group" role="group">
         <button id="tape-btn-rewind" class="btn btn-outline-dark" type="button">
@@ -49,6 +51,7 @@
   <script src="hl2/core.js"></script>
   <script src="hl2/machine.js"></script>
 
+  <script src="ui/canvas.js"></script>
   <script src="ui/tape.js"></script>
   <script src="main.js"></script>
 </body>

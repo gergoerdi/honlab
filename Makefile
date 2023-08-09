@@ -13,7 +13,7 @@ FILES = \
 	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js hl2/core.js hl2/machine.js \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
-        ui/tape.js \
+        ui/tape.js ui/canvas.js \
 	main.js
 OUTFILES = $(patsubst %, _build/%, $(FILES))
 
