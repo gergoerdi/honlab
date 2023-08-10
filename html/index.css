@@ -52,7 +52,7 @@ dialog::backdrop {
 
 #canvas-container {
     position: relative;
-    height: calc(100vh - 12em); /* Subtract the height of the header */
+    height: calc(100vh - 9em); /* Subtract the height of the header & footer */
 }
 
 #canvas-container canvas {
