@@ -21,7 +21,7 @@ function hl2_memory_map(video, keystate, deck) {
 
     const video_on = {
         read: (addr) => { return 0x00; },
-        write: (addr, val) => { video.on(); }
+        write: (addr, val) => { video.on(); video.wait_line(); }
     };
 
     const video_off = {

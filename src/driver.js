@@ -3,35 +3,18 @@ const cpu_freq = 4_000_000;
 
 function setupAnim(machine) {
     const frame_cnt = cpu_freq / fps;
-    const blank_ms = 2.5;
+    const blank_ms = 1.6;
     const blank_cnt = cpu_freq / 1_000 * blank_ms;
-    const draw_cnt = frame_cnt - blank_cnt;
-
-    let cnt = 0;
-    function step(dcnt) {
-        const new_cnt = cnt + dcnt;
-        const trigger = cnt < blank_cnt && new_cnt >= blank_cnt;
-
-        cnt = new_cnt;
-        if (cnt > frame_cnt)
-            cnt -= frame_cnt;
-
-        return trigger;
-    }
-
-    function run_for(lim) {
-        let subcnt = 0;
-        while (subcnt < lim) {
-            let dcnt = machine.step();
-            subcnt += dcnt;
-
-            if (step(dcnt))
-                machine.start_frame();
-        }
-    };
+    const line_cnt = 256; // TODO: calculate this from PAL timings
+    // const draw_cnt = frame_cnt - blank_cnt;
 
     function emulate() {
-        run_for(frame_cnt / 5);
+        let cnt = 0;
+        while (cnt < blank_cnt)
+            cnt += machine.step();
+        machine.start_frame();
+        while (cnt < frame_cnt)
+            cnt += machine.step();
     }
 
     function animate(t) {
@@ -39,6 +22,6 @@ function setupAnim(machine) {
         machine.render(renderer);
     }
 
-    setInterval(emulate, 20 / 5);
+    setInterval(emulate, 1000 / fps);
     requestAnimationFrame(animate);
 }

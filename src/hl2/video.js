@@ -2,8 +2,9 @@ const charset = new Uint8Array(files["data/hl2/charset.bin"].slice());
 
 const video = (() => {
     const vram = new Uint8Array(0x0400);
-    let running = true;
+    let running = false;
     let dirty = true;
+    let stalling = false;
 
     const render = (renderer) => {
         let ptr = 0;
@@ -26,6 +27,8 @@ const video = (() => {
 
     return {
         vram,
+        wait_line: () => { stalling = true; },
+        is_stalling: () => { const tmp = stalling; stalling = false; return tmp; },
         on: () => { running = true; },
         off: () => { running = false; },
         is_running: () => running,
