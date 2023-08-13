@@ -1,31 +1,37 @@
 const deck = (() => {
     let tape = null;
     let playing = false;
+    let recording = false;
 
     let tick_cb = () => {};
     let load_cb = () => {};
     let play_cb = () => {};
+    let record_cb = () => {};
     
     return {
-        load_tape: (new_tape) => { tape = new_tape; playing = false; play_cb(); load_cb(); },
+        load_tape: (new_tape) => { tape = new_tape; playing = false; play_cb(); load_cb(new_tape); },
 
         play: (new_playing) => { playing = tape && new_playing; play_cb(); },
+        record: (new_recording) => { recording = (tape && new_recording); record_cb(); },
         rewind: () => { playing = false; if (tape) tape.rewind(); play_cb(); tick_cb(); },
         is_playing: () => playing,
+        is_recording: () => recording,
 
         get_cnt: () => tape ? tape.get_cnt() : 0,
         get_size: () => tape ? tape.get_size() : 0,
 
-        tick: (dcnt) => { if (playing && tape) { tape.tick(dcnt); tick_cb(); }; },
+        tick: (dcnt) => { if (playing && tape) { tape.tick(dcnt, recording); tick_cb(); }; },
         read: () => tape && tape.read(),
+        write: () => { if (tape && recording) tape.write() },
 
         on_tick: (cb) => { tick_cb = cb; },
         on_load: (cb) => { load_cb = cb; },
         on_play: (cb) => { play_cb = cb; },
+        on_record: (cb) => { record_cb = cb; },
     };
 })();
 
-async function tape_from_file(url) {
+const tape_from_file = async (url) => {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     var audioCtx = new AudioContext();
 
@@ -37,17 +43,18 @@ async function tape_from_file(url) {
     const chan = buf.getChannelData(0);
 
     let cnt = 0;
-    let sample = 0.0;
+    let sample = false;
 
     return {
         get_cnt: () => cnt,
         get_size: () => len * ratio,
 
-        tick: (dcnt) => {
-            cnt = cnt + dcnt;
-            const i = Math.min(len, Math.floor(cnt / ratio));
+        tick: (dcnt, recording) => {
+            cnt = Math.min(len * ratio, cnt + dcnt);
+            const i = Math.floor(cnt / ratio);
             sample = chan[i] > 0.03;
         },
+        write: () => { }, // TODO
         read: () => sample,
         rewind: () => { cnt = 0; },
     };

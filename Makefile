@@ -16,6 +16,7 @@ FILES = \
 	index.html index.css ripple.css casette.jpg \
 	files.js \
 	driver.js \
+	audio.js \
 	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js hl2/core.js hl2/machine.js \
 	hl4/video.js hl4/keyboard.js hl4/memmap.js \
@@ -57,7 +58,11 @@ _build/%.js: src/%.js
 
 _build/image/%.mp3: image/%.wav
 	mkdir -p $(dir $@)
-	lame -b 96 $< -o $@
+	lame -b 96 $< $@
+
+_build/image/%.json: image/%.json
+	mkdir -p $(dir $@)
+	cp -f $< $@
 
 _build/lib/base64.js: import/base64.js
 	mkdir -p $(dir $@)

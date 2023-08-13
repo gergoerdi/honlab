@@ -6,12 +6,12 @@ const tape_range =  document.getElementById("tape-range");
 const tape_monitor = document.getElementById("tape-monitor");
 
 const setupTape = (deck) => {
-    const set_enable = (enable) => {
+    const set_enable = (enable, tape_loaded) => {
         tape_btn_eject.disabled = !enable;
 
         const size = deck.get_size();
         for (let ctl of [tape_btn_play, tape_btn_rewind, tape_btn_record]) {
-            ctl.disabled = !(enable && size > 0);
+            ctl.disabled = !(enable && tape_loaded);
         }
     };
 
@@ -47,20 +47,24 @@ const setupTape = (deck) => {
     tape_btn_eject.onclick = () => {
         eject();
     };
+    tape_btn_record.onchange = () => {
+        deck.record(tape_btn_record.checked);
+    }
 
     tape_range.min = 0;
 
-    const load_cb = () => {
-        tape_range.max = deck.get_size();
-        set_enable(true);
+    const load_cb = (tape) => {
+        console.log("load_cb");
+        set_enable(true, tape != null);
     };
     deck.on_load(load_cb);
-    load_cb();
+    load_cb(null);
 
     let tape_bit = false;
     const blinkTape = (t) => {
         requestAnimationFrame(blinkTape);
 
+        tape_range.max = deck.get_size();
         tape_range.value = deck.get_cnt();
 
         const red = "#dc3545";
@@ -68,7 +72,7 @@ const setupTape = (deck) => {
         const teal="#20c997";
         const green = "#198754";
 
-        const recording = false; // tape_btn_record.checked;
+        const recording = deck.is_recording();
         const color1 = recording ? red : green;
         const color2 = recording ? orange : teal;
 
