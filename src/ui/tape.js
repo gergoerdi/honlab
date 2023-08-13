@@ -15,12 +15,10 @@ const setupTape = (deck) => {
         }
     };
 
-    tape_filesel.addEventListener("close", async (e) => {
-        const filename = tape_filesel.returnValue;
-        if (!filename) return;
+    tape_filesel.addEventListener("tape_selected", async (e) => {
+        const tape = e.detail;
 
         set_enable(false);
-        let tape = await tape_from_file(filename);
         deck.load_tape(tape);
     });
 
@@ -35,9 +33,14 @@ const setupTape = (deck) => {
 
         tape_btn_play.replaceChildren(icon);
     });
+    deck.on_record(() => {
+        tape_btn_record.checked = deck.is_recording();
+    })
 
     tape_btn_play.onclick = () => {
         deck.play(!deck.is_playing());
+        if (!deck.is_playing())
+            deck.record(false);
     };
 
     tape_btn_rewind.onclick = () => {

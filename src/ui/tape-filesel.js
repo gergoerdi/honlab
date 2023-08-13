@@ -1,5 +1,6 @@
 const tape_filesel = document.getElementById("tape-filesel");
 const tape_cards = document.getElementById("tape-cards");
+const tape_new = document.getElementById("tape-new");
 
 tape_filesel.addEventListener("click", (e) => {
     if (e.target != tape_filesel) return;
@@ -16,15 +17,24 @@ tape_filesel.addEventListener("click", (e) => {
         tape_filesel.close();
 });
 
-const createCard = (title, text, footer) => {
-    const mkNode = (tag, cls, s) => {
-        const node = document.createElement(tag);
-        node.classList.add(cls);
-        if (s)
-            node.appendChild(document.createTextNode(s));
-        return node;
-    };
+const tape_selected = (tape) => {
+    tape_filesel.dispatchEvent(new CustomEvent("tape_selected", {
+        detail: tape,
+        bubbles: false,
+        cancelable: false,
+        composed: false
+    }));
+};
 
+const mkNode = (tag, cls, s) => {
+    const node = document.createElement(tag);
+    node.classList.add(cls);
+    if (s)
+        node.appendChild(document.createTextNode(s));
+    return node;
+};
+
+const createCard = (title, text, footer) => {
     const card = mkNode("div", "card");
 
     const body = mkNode("div", "card-body");
@@ -43,14 +53,6 @@ const createCard = (title, text, footer) => {
 }
 
 const mkTapeCard = (obj) => {
-    const mkNode = (tag, cls, s) => {
-        const node = document.createElement(tag);
-        node.classList.add(cls);
-        if (s)
-            node.appendChild(document.createTextNode(s));
-        return node;
-    };
-
     const footer = mkNode("div", "d-flex");
     footer.classList.add("justify-content-between");
     footer.appendChild(mkNode("small", "text-body-secondary", obj.footer));
@@ -80,20 +82,43 @@ const loadTapeCards = async (url) => {
         const card_link = mkTapeCard(obj);
         const card = card_link.card;
         const link = card_link.link;
-        tape_cards.appendChild(card);
+        tape_cards.insertBefore(card, tape_new);
 
         link.href = obj.filename;
         link.download = obj.filename.substring(obj.filename.lastIndexOf('/')+1);
 
-        card.addEventListener("click", () => {
-            tape_filesel.close(obj.filename);
+        card.addEventListener("click", async () => {
+            tape = await tape_from_file(obj.filename);
+            tape_filesel.close();
+            tape_selected(tape);
         });
     };
 };
 
+tape_new.addEventListener("click", () => {
+    const tape = empty_tape();
+
+    const obj = {
+        filename: "new_tape.wav",
+        title: "New Tape",       
+    };
+
+    const card_link = mkTapeCard(obj);
+    const card = card_link.card;
+    const link = card_link.link;
+    tape_cards.insertBefore(card, tape_new);
+
+    link.addEventListener("click", (event) => {
+        const url = URL.createObjectURL(tape.render());
+        link.href = url;
+    });
+    link.download = "new_tape.wav";
+
+    card.addEventListener("click", () => {
+        tape_filesel.close();
+        tape_selected(tape);
+    });
+});
+
 loadTapeCards("image/hl2/images.json");
-// (() => {
-//     const footer = null;
-//     const card = createCard("New tape", "", footer);
-//     tape_cards.appendChild(card);
-// })();
+
