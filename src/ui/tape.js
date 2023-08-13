@@ -54,7 +54,6 @@ const setupTape = (deck) => {
     tape_range.min = 0;
 
     const load_cb = (tape) => {
-        console.log("load_cb");
         set_enable(true, tape != null);
     };
     deck.on_load(load_cb);
