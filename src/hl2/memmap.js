@@ -2,17 +2,6 @@ function hl2_memory_map(video, keystate, deck) {
     const rom = new Uint8Array(files["data/hl2/rom.bin"].slice());
     const ram = new Uint8Array(0x4000);
 
-    const highio = function(){
-        const read = (addr) => {
-            console.log(addr.toString(16));
-            return 0x00;
-        };
-        const write = (addr, val) => {
-            console.log(addr.toString(16));
-        };
-        return {read, write};
-    }();
-
     const keyboard = function(){
         const read = (addr) => keyboard_byte(keystate, addr);
         const write = (addr, val) => {};
