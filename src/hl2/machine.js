@@ -2,22 +2,18 @@ const cpu = Z80(core);
 core.cpu = cpu;
 
 const machine = ((cpu, video, deck) => {
-    const line_cnt = 256; // TODO: calculate this from PAL timings
-
     let cnt = 0;
 
     return {
         step: () => {
-            let dcnt = cpu.run_instruction();
-            cnt = (cnt + dcnt) % line_cnt;
-
-            if (video.is_stalling()) {
-                dcnt = dcnt + (line_cnt - 1 - cnt);
-                cnt = 0;
-            }
+            const new_cnt = clock.run(cnt, () => {
+                clock.tick(cpu.run_instruction());
+            });
+            const dcnt = new_cnt - cnt;
+            cnt = new_cnt;
 
             deck.tick(dcnt);
-            return dcnt;
+            return cnt;
         },
         start_frame: () => { if (video.is_running()) cpu.interrupt(true); },
         render: (renderer) => video.render(renderer)

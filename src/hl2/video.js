@@ -1,10 +1,10 @@
 const charset = new Uint8Array(files["data/hl2/charset.bin"].slice());
 
 const video = (() => {
+    const line_cnt = 256; // TODO: calculate this from PAL timings
+
     const vram = new Uint8Array(0x0400);
     let running = false;
-    let dirty = true;
-    let stalling = false;
 
     const render = (renderer) => {
         let ptr = 0;
@@ -25,10 +25,11 @@ const video = (() => {
         }
     };
 
+    const next_line = () => Math.ceil(clock.base_cnt() / line_cnt) * line_cnt;
+
     return {
         vram,
-        wait_line: () => { stalling = true; },
-        is_stalling: () => { const tmp = stalling; stalling = false; return tmp; },
+        wait_line: () => { clock.wait_until(next_line()) },
         on: () => { running = true; },
         off: () => { running = false; },
         is_running: () => running,

@@ -15,7 +15,7 @@ FILES = \
         $(wildcard image/*/images.json) \
 	index.html index.css ripple.css casette.jpg \
 	files.js \
-	driver.js \
+	driver.js clock.js \
 	audio.js \
 	tape.js video.js keyboard.js memmap.js \
 	hl2/video.js hl2/keyboard.js hl2/memmap.js hl2/core.js hl2/machine.js \
