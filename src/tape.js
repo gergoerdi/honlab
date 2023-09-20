@@ -52,7 +52,7 @@ const tape_from_file = async (url) => {
         tick: (dcnt, recording) => {
             cnt = Math.min(len * ratio, cnt + dcnt);
             const i = Math.floor(cnt / ratio);
-            sample = chan[i] > 0.03;
+            sample = chan[i] > 0.08;
         },
         write: () => { }, // TODO
         read: () => sample,
