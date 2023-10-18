@@ -26,16 +26,26 @@ const tape_selected = (tape) => {
     }));
 };
 
-const mkNode = (tag, cls, s) => {
+const mkNode = (tag, cls, child) => {
     const node = document.createElement(tag);
-    node.classList.add(cls);
-    if (s)
-        node.appendChild(document.createTextNode(s));
+
+    if (typeof cls == typeof []) {
+        for (cls of cls) 
+            node.classList.add(cls);
+    } else {
+        node.classList.add(cls);
+    }
+    
+    if (child) {
+        if (typeof child == 'string')
+            child = document.createTextNode(child);
+        node.appendChild(child);
+    }
     return node;
 };
 
 const createCard = (title, text, footer) => {
-    const card = mkNode("div", "card");
+    const card = mkNode("div", ["card", "h-100"]);
 
     const body = mkNode("div", "card-body");
     card.appendChild(body);
@@ -76,13 +86,16 @@ const mkTapeCard = (obj) => {
 const loadTapeCards = async (url) => {
     const response = await fetch(url);
     const tapes_obj = await response.json();
+
+    let tapeCards = [];
     for (const obj of tapes_obj.tapes) {
         obj.filename = "image/hl2/" + obj.filename;
 
         const card_link = mkTapeCard(obj);
         const card = card_link.card;
         const link = card_link.link;
-        tape_cards.insertBefore(card, tape_new);
+
+        tape_cards.insertBefore(mkNode("div", "col", card), tape_new.parentNode);
 
         link.href = obj.filename;
         link.download = obj.filename.substring(obj.filename.lastIndexOf('/')+1);
@@ -106,7 +119,7 @@ tape_new.addEventListener("click", () => {
     const card_link = mkTapeCard(obj);
     const card = card_link.card;
     const link = card_link.link;
-    tape_cards.insertBefore(card, tape_new);
+    tape_cards.insertBefore(mkNode("div", "col", card), tape_new.parentNode);
 
     link.addEventListener("click", (event) => {
         const url = URL.createObjectURL(tape.render());
