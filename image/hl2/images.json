@@ -12,5 +12,25 @@
         "title": "TakOpt",
         "desc": "Takarmány-optimalizáló segédprogram",
         "footer": "1:59"
+    },{
+        "filename": "snake-hl2.wav",
+        "title": "Snake",
+        "desc": "Kígyó-játék, a 2023-as HomeLab-2 játékprogramozói versenyre",
+        "footer": "0:33"
+    },{
+        "filename": "hl2048-hl2.wav",
+        "title": "HL-2048",
+        "desc": "2048-játék, a 2023-as HomeLab-2 programozási versenyre",
+        "footer": "0:33"
+    },{
+        "filename": "chip80-hl2.wav",
+        "title": "CHIP-80",
+        "desc": "10 játék egyben!",
+        "footer": "2:19"
+    },{
+        "filename": "bosszu.mp3",
+        "title": "A Bosszú 1.",
+        "desc": "Rátkai István klasszikus kalandjátékának első fele, a 2023-as HomeLab-2 játékprogramozói versenyre",
+        "footer": "3:21"
     }]
 }

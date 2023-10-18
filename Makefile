@@ -25,6 +25,7 @@ FILES = \
 
 OUTFILES = \
 	$(patsubst %, _build/%, $(FILES)) \
+	$(patsubst %.wav, _build/%.wav, $(IMAGEFILES)) \
 	$(patsubst %.wav, _build/%.mp3, $(IMAGEFILES))
 
 all: $(OUTFILES)
@@ -53,6 +54,10 @@ _build/%.jpg: html/%.jpg
 	cp -f $< $@
 
 _build/%.js: src/%.js
+	mkdir -p $(dir $@)
+	cp -f $< $@
+
+_build/image/%.wav: image/%.wav
 	mkdir -p $(dir $@)
 	cp -f $< $@
 
