@@ -18,17 +18,13 @@ function hl2_memory_map(video, keystate, deck) {
         write: (addr, val) => { video.off(); }
     };
 
-    const video_scan = (addr) => {
-        // if ((addr % 40) == 0) {
-        //     return 0xff;
-        // }
-        // return 0x00;
-        return 0xff;
-    };
+    const video_scan = (addr, cpu) =>
+          cpu.getState().r == 0 ? 0xff :
+          0x3f;
     
     const tape_in = {
-        read: (addr) =>
-            video.is_running() ? video_scan(addr) :
+        read: (addr, cpu) =>
+            video.is_running() ? video_scan(addr, cpu) :
             deck.read() ? 0xff :
             0x00,
         write: (addr, val) => {}

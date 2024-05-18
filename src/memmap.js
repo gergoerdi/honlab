@@ -10,13 +10,13 @@ function memory_map(table) {
     }
 
     return {
-        mem_read: (addr) => {
+        mem_read: (addr, extra) => {
             const [unit, unit_addr] = find_unit(addr);
-            return unit.read(unit_addr);
+            return unit.read(unit_addr, extra);
         },
-        mem_write: (addr, val) => {
+        mem_write: (addr, val, extra) => {
             const [unit, unit_addr] = find_unit(addr);
-            return unit.write(unit_addr, val);
+            return unit.write(unit_addr, val, extra);
         }};
 }
 

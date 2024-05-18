@@ -1,4 +1,5 @@
 const cpu = Z80(core);
+core.cpu = cpu;
 
 const machine = ((cpu, video, deck) => {
     const line_cnt = 256; // TODO: calculate this from PAL timings
